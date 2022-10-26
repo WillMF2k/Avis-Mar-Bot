@@ -55,7 +55,7 @@ async def on_message(message):
 
 	## Checks if command if a funny or quote command
 
-	funny_list = ['Girthy Obelisk', 'The Gyrlz', 'Ulani joins the IRA', 'Fish tacos', 'The Tarrasque under the lake', 'Honkin Clams']
+	funny_list = ['Girthy Obelisk', 'The Gyrlz', 'Ulani joins the IRA', 'Fish tacos', 'The Tarrasque under the lake', 'Honkin Clams', 'Lake Lobster', 'Studying Russian']
 	quote_list = ['Can you imagine shaving your frog?', 'It\'s been a few months since I\'ve died', 'Okay, so I have a gun', 'Your bird has been commandeered', 'Sultry as always', 'Oh god, you\'re fighting the pope']
 
 	if message.content.lower() == '!quote':
@@ -66,6 +66,19 @@ async def on_message(message):
 	if message.content.lower() == '!funny':
 		response = random.choice(funny_list)
 		await message.channel.send(response)
+		return
+
+	if message.content.lower() == '!johnny stop fucking with the bot':
+		response = 'Ominous Placeholder while I figure out how to abuse my power'
+		await message.channel.send(response)
+		return
+
+	## Checks if command is a stat block command
+
+	stat_block_check = message.content.split()
+	if stat_block_check[0].lower() == '!stat' and stat_block_check[1].lower() == 'block':
+		choice = stat_block_check[2].capitalize() + '_' + stat_block_check[3].lower()
+		await message.channel.send(file = discord.File('images/'+choice+'.png'))
 		return
 
 	## Checks if command is a spell command
