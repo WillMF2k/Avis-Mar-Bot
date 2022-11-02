@@ -73,6 +73,18 @@ async def on_message(message):
 		await message.channel.send(response)
 		return
 
+	if message.content.lower() == '!scrying table':
+		await message.channel.send(file = discord.File('images/Scrying_table.png'))
+		return
+
+	if message.content.lower() == '!control weather table':
+		await message.channel.send(file = discord.File('images/Control_weather_table.png'))
+		return
+
+	if message.content.lower() == '!reincarnate table':
+		await message.channel.send(file = discord.File('images/Reincarnate_table.png'))
+		return
+
 	## Checks if command is a stat block command
 
 	stat_block_check = message.content.split()
