@@ -20,6 +20,10 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
+
+	if len(message.attachments) > 0:
+		return
+	
 	if message.author == client.user:
 		return
 
@@ -85,6 +89,47 @@ async def on_message(message):
 		await message.channel.send(file = discord.File('images/Reincarnate_table.png'))
 		return
 
+	if message.content.lower() == '!generate character':
+		raceList = []
+		raceListWeights = []
+		backgroundList = []
+		backgroundListWeights = []
+		classAndSubclassList = []
+		with open('raceList.txt', errors='Ignore') as file3:
+			for line in file3:
+				line = line.replace('\"', '')
+				line = line.replace('\n', '')
+				line = line.replace(',', '')
+				raceList.append(line)
+		with open('raceListWeights.txt', errors='Ignore') as file4:
+			for line in file4:
+				line = line.replace('\n', '')
+				line = line.replace(',', '')
+				raceListWeights.append(float(line))
+		with open('backgroundList.txt', errors='Ignore') as file5:
+			for line in file5:
+				line = line.replace('\"', '')
+				line = line.replace('\n', '')
+				line = line.replace(',', '')
+				backgroundList.append(line)
+		with open('backgroundListWeights.txt', errors='Ignore') as file6:
+			for line in file6:
+				line = line.replace('\n', '')
+				line = line.replace(',', '')
+				backgroundListWeights.append(float(line))
+		with open('classAndSubclassList.txt', errors='Ignore') as file7:
+			for line in file7:
+				line = line.replace('\"', '')
+				line = line.replace('\n', '')
+				line = line.replace(',', '')
+				classAndSubclassList.append(line)
+		race = random.choices(raceList, raceListWeights)
+		background = random.choices(backgroundList, backgroundListWeights)
+		classAndSubclass = random.choices(classAndSubclassList)
+		response = 'Race: '+race[0]+', Class: '+classAndSubclass[0]+', Background: '+background[0]
+		await message.channel.send(response)
+		return
+
 	## Checks if command is a stat block command
 
 	stat_block_check = message.content.split()
@@ -100,8 +145,10 @@ async def on_message(message):
 
 	spellDict = json.loads(data)
 
-	if message.content.lower().strip('\'') in spellDict:
-		response = spellDict[message.content.lower()]
+	spellCheck = message.content.lower().replace('\'', '')
+
+	if spellCheck in spellDict:
+		response = spellDict[spellCheck]
 		await message.channel.send(response)
 		return
 
@@ -112,8 +159,10 @@ async def on_message(message):
 
 	itemDict = json.loads(data2)
 
-	if message.content.lower().strip('\'') in itemDict:
-		response = itemDict[message.content.lower()]
+	itemCheck = message.content.lower().replace('\'', '')
+
+	if itemCheck in itemDict:
+		response = itemDict[itemCheck]
 		await message.channel.send(response)
 		return
 
